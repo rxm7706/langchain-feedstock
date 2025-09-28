@@ -1,7 +1,7 @@
 {% set name = "langchain" %}
 {% set version = "0.3.27" %}
-{% set build = 0 %}
-{% set python_max = ",<3.12a0" if python_min == "3.9" else "" %}
+{% set build = 1 %}
+{% set python_max = ",<3.14" if python_min == "3.10" else "" %}
 
 package:
   name: {{ name|lower }}
@@ -15,7 +15,7 @@ build:
   entry_points:
     - langchain-server = langchain.server:main
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
   number: {{ build }}
   string: "pymin{{ python_min|replace('.', '') }}_h{{ PKG_HASH }}_{{ build }}"
 
@@ -33,13 +33,13 @@ requirements:
     - sqlalchemy <3,>=1.4
     - requests <3,>=2
     - pyyaml >=5.3
-    {% if python_max == "" %}
-    - numpy <2,>=1.26.4
-    {% else %}
-    - numpy >=1.22.4,<2
-    {% endif %}
-    - aiohttp <4.0.0,>=3.8.3
-    - tenacity !=8.4.0,<10,>=8.1.0
+    #{% if python_max == "" %}
+    #- numpy >=2.1.0
+    #{% else %}
+   # - numpy >=1.26.4
+    #{% endif %}
+    #- aiohttp <4.0.0,>=3.8.3 
+    #- tenacity !=8.4.0,<10,>=8.1.0
     - async-timeout >=4.0.0,<5.0.0
   run_constrained:
     # based on https://github.com/langchain-ai/langchain/blob/master/libs/langchain/extended_testing_deps.txt
